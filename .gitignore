@@ -1,0 +1,29 @@
+# Compiled binary files
+*.exe
+*.dll
+*.so
+*.dylib
+/tmp/
+*.out
+*.test
+*.log
+
+# Build directory
+/tmp/
+/bin/
+
+# IDE or editor settings
+.vscode/
+.idea/
+*.swp
+
+# OS-specific files
+.DS_Store
+
+# Go-specific files
+go.sum
+
+.env
+
+main
+dump.rdb
