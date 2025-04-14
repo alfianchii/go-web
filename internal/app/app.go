@@ -12,6 +12,7 @@ type App struct {
 	Address string
 	// Repo, hdlr, svc
 	UserRepo repositories.UserRepo
+	SessionRepo repositories.SessionRepo
 }
 
 func InitApp() *App {
@@ -19,11 +20,13 @@ func InitApp() *App {
 	db := database.InitDB(cfg)
 	
 	userRepo := repositories.NewUserRepo(db)
+	sessionRepo := repositories.NewSessionRepo(db)
 
 	return &App{
 		DB: db,
 		Config: cfg,
 		Address: configs.GetAppAddress(cfg),
 		UserRepo: userRepo,
+		SessionRepo: sessionRepo,
 	}
 }

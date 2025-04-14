@@ -1,11 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
 
-type LoginRequest struct {
-	Username string `json:"username" form:"username"`
-	Password string `json:"password" form:"password"`
-}
+	"github.com/golang-jwt/jwt/v5"
+)
 
 type User struct {
 	ID int `json:"user_id"`
@@ -20,4 +19,17 @@ type User struct {
 	UpdatedBy *int `json:"updated_by"`
 	DeletedAt *time.Time `json:"deleted_at"`
 	DeletedBy *int `json:"deleted_by"`
+}
+
+type LoginRequest struct {
+	Username string `json:"username" form:"username"`
+	Password string `json:"password" form:"password"`
+}
+
+type UserClaims struct {
+	UserID int `json:"user_id"`
+	Name string `json:"name"`
+	Username string `json:"username"`
+	Roles []Role `json:"roles"`
+	jwt.RegisteredClaims
 }
