@@ -1,7 +1,7 @@
 package api
 
 import (
-	"go-boilerplate/internal/app"
+	"go-web/internal/app"
 
 	"github.com/go-chi/chi/v5"
 	chiMiddleware "github.com/go-chi/chi/v5/middleware"

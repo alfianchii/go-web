@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"go-boilerplate/api"
-	"go-boilerplate/internal/app"
+	"go-web/api"
+	"go-web/internal/app"
 	"log"
 	"net/http"
 )

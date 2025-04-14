@@ -1,4 +1,4 @@
-module go-boilerplate
+module go-web
 
 go 1.23.3
 

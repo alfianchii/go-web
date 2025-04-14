@@ -1,8 +1,8 @@
 package app
 
 import (
-	"go-boilerplate/configs"
-	"go-boilerplate/internal/database"
+	"go-web/configs"
+	"go-web/internal/database"
 )
 
 type App struct {

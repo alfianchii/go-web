@@ -2,7 +2,7 @@ package database
 
 import (
 	"fmt"
-	"go-boilerplate/configs"
+	"go-web/configs"
 	"log"
 
 	"github.com/jackc/pgx/v5/pgxpool"
