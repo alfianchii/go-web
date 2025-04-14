@@ -7,6 +7,8 @@ import (
 
 type App struct {
 	DB *database.DB
+	Config *configs.Config
+	Address string
 	// Repo, hdlr, svc
 }
 
@@ -16,5 +18,7 @@ func InitApp() *App {
 
 	return &App{
 		DB: db,
+		Config: cfg,
+		Address: configs.GetAppAddress(cfg),
 	}
 }

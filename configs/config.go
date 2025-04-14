@@ -59,6 +59,10 @@ func GetENV(key string) string {
 	return dotEnv[key]
 }
 
+func GetAppAddress(cfg *Config) string {
+	return fmt.Sprintf("%s:%s", cfg.AppURL, cfg.AppPort)
+}
+
 func CtxTime() (context.Context, context.CancelFunc) {
 	ctx, cancel := context.WithTimeout(CtxBg(), ExecTimeoutDuration)
 	
