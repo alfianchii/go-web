@@ -8,8 +8,8 @@ import (
 )
 
 type UserRepo interface {
-	FindUsername(ctx context.Context, username string) (*models.User, error)
-	FindUsernameWithRoles(ctx context.Context, username string) (*models.User, error)
+	FindByUsername(ctx context.Context, username string) (*models.User, error)
+	FindByUsernameWithRoles(ctx context.Context, username string) (*models.User, error)
 }
 
 type UserRepoImpl struct {
@@ -22,7 +22,7 @@ func NewUserRepo(db *database.DB) UserRepo {
 	}
 }
 
-func (r *UserRepoImpl) FindUsername(ctx context.Context, username string) (*models.User, error) {
+func (r *UserRepoImpl) FindByUsername(ctx context.Context, username string) (*models.User, error) {
 	query := `SELECT * FROM users WHERE username = $1`
 	row := r.DB.Pool.QueryRow(ctx, query, username)
 
@@ -47,7 +47,7 @@ func (r *UserRepoImpl) FindUsername(ctx context.Context, username string) (*mode
 	return &user, nil
 }
 
-func (r *UserRepoImpl) FindUsernameWithRoles(ctx context.Context, username string) (*models.User, error) {
+func (r *UserRepoImpl) FindByUsernameWithRoles(ctx context.Context, username string) (*models.User, error) {
 	query := `
 		SELECT
 		 users.*,
