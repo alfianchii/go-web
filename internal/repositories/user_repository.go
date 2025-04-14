@@ -7,6 +7,12 @@ import (
 	"go-web/internal/models"
 )
 
+var (
+	ErrUserNotFound = errors.New("user not found")
+	ErrQueryFailed  = errors.New("failed to query user with roles")
+	ErrScanFailed   = errors.New("failed to scan user and role")
+)
+
 type UserRepo interface {
 	FindByUsername(ctx context.Context, username string) (*models.User, error)
 	FindByUsernameWithRoles(ctx context.Context, username string) (*models.User, error)
@@ -41,7 +47,7 @@ func (r *UserRepoImpl) FindByUsername(ctx context.Context, username string) (*mo
 		&user.DeletedBy,
 	)
 	if err != nil {
-		return nil, errors.New("user not found")
+		return nil, ErrUserNotFound
 	}
 
 	return &user, nil
@@ -60,7 +66,7 @@ func (r *UserRepoImpl) FindByUsernameWithRoles(ctx context.Context, username str
 	
 	rows, err := r.DB.Pool.Query(ctx, query, username)
 	if err != nil {
-		return nil, errors.New("failed to query user with roles")
+		return nil, ErrQueryFailed
 	}
 	defer rows.Close()
 
@@ -75,14 +81,14 @@ func (r *UserRepoImpl) FindByUsernameWithRoles(ctx context.Context, username str
 			&role.ID, &role.Name, &role.CreatedAt, &role.CreatedBy, &role.UpdatedAt, &role.UpdatedBy, &role.DeletedAt, &role.DeletedBy,
 		)
 		if err != nil {
-			return nil, errors.New("failed to scan user and role")
+			return nil, ErrScanFailed
 		}
 
 		roles = append(roles, role)
 	}
 
 	if user == nil {
-		return nil, errors.New("user not found")
+		return nil, ErrUserNotFound
 	}
 
 	user.Roles = roles
