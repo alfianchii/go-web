@@ -33,7 +33,7 @@ var (
 func InitENV() *Config {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatalf("Error loading .env file")
 	}
 
 	return &Config{
@@ -53,7 +53,7 @@ func InitENV() *Config {
 func GetENV(key string) string {
 	dotEnv, err := godotenv.Read()
 	if err != nil {
-		log.Fatal("Error reading .env file")
+		log.Fatalf("Error reading .env file")
 	}
 
 	return dotEnv[key]
