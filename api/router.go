@@ -15,6 +15,7 @@ func InitRouter(app *app.App) *chi.Mux {
 
 	r.Route("/api", func (r chi.Router) {
 		// Routes
+		r.Post("/login", app.UserHdl.Login)
 	})
 
 	return r
