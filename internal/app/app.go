@@ -17,6 +17,8 @@ type App struct {
 	SessionRepo repositories.SessionRepo
 	UserSvc services.UserSvc
 	UserHdl handlers.UserHdl
+	DashboardSvc services.DashboardSvc
+	DashboardHdl handlers.DashboardHdl
 }
 
 func InitApp() *App {
@@ -28,6 +30,9 @@ func InitApp() *App {
 	userSvc := services.NewUserSvc(userRepo, sessionRepo)
 	userHdl := handlers.NewUserHdl(userSvc)
 
+	dashboardSvc := services.NewDashboardSvc()
+	dashboardHdl := handlers.NewDashboardHdl(dashboardSvc)
+
 	return &App{
 		DB: db,
 		Config: cfg,
@@ -36,5 +41,7 @@ func InitApp() *App {
 		SessionRepo: sessionRepo,
 		UserSvc: userSvc,
 		UserHdl: userHdl,
+		DashboardSvc: dashboardSvc,
+		DashboardHdl: dashboardHdl,
 	}
 }

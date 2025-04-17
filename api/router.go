@@ -20,6 +20,7 @@ func InitRouter(app *app.App) *chi.Mux {
 
 		r.Group(func(r chi.Router) {
 			r.Use(middlewares.AuthMiddleware("admin", app.UserSvc, app.SessionRepo))
+			r.Get("/dashboard", app.DashboardHdl.DashboardData)
 		})
 	})
 
