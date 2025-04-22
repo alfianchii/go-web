@@ -2,11 +2,17 @@ package configs
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"time"
 
 	"github.com/joho/godotenv"
+)
+
+var (
+	ErrFailedLoadENVFile = errors.New("failed loading .env file")
+	ErrFailedReadENVFile = errors.New("failed reading .env file")
 )
 
 type Config struct {
@@ -32,7 +38,7 @@ var (
 func InitENV() *Config {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Error loading .env file")
+		log.Fatal(ErrFailedLoadENVFile)
 	}
 
 	return &Config{
@@ -52,7 +58,7 @@ func InitENV() *Config {
 func GetENV(key string) string {
 	dotEnv, err := godotenv.Read()
 	if err != nil {
-		log.Fatalf("Error reading .env file")
+		log.Fatal(ErrFailedReadENVFile)
 	}
 
 	return dotEnv[key]

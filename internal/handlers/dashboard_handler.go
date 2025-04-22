@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	ErrFetchDashboardData = errors.New("")
+	ErrFetchDashboardData = errors.New("failed to fetch dashboard data")
 )
 
 type DashboardHdl interface {
