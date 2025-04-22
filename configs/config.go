@@ -25,7 +25,6 @@ type Config struct {
 }
 
 var (
-	Address = fmt.Sprintf("%s:%s", GetENV("APP_URL"), GetENV("APP_PORT"))
 	ExecTimeoutDuration = 10*time.Second
 	TokenDuration = 1*time.Hour
 )

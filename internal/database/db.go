@@ -32,6 +32,6 @@ func InitDB(config *configs.Config) *DB {
 	return &DB{Pool: pool}
 }
 
-func dbDSN (config *configs.Config) string {
+func dbDSN(config *configs.Config) string {
 	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", config.DBHost, config.DBPort, config.DBUser, config.DBPass, config.DBName)
 }

@@ -12,7 +12,7 @@ type App struct {
 	DB *database.DB
 	Config *configs.Config
 	Address string
-	// Repo, hdlr, svc
+	// Repo, svc, hdl
 	UserRepo repositories.UserRepo
 	SessionRepo repositories.SessionRepo
 	UserSvc services.UserSvc
