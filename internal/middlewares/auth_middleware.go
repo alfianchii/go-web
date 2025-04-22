@@ -16,6 +16,7 @@ const UserClaimsKey contextKey = "userClaims"
 var (
 	ErrInvalidTokenFormat = errors.New("invalid token format")
 	ErrBlacklistedToken = errors.New("unauthorized: Token is blacklisted")
+	ErrGetBlacklistedToken= errors.New("failed to get blacklisted token")
 	ErrInvalidToken = errors.New("unauthorized: Invalid token")
 	ErrInsufficientPerms = errors.New("forbidden: Insufficient permissions")
 )
@@ -31,7 +32,7 @@ func AuthMiddleware(requiredRole string, userSvc services.UserSvc, sessionRepo r
 
 			isBlacklisted, err := sessionRepo.IsTokenBlacklisted(req.Context(), tokenString)
 			if err != nil {
-				utils.SendRes(res, "", http.StatusUnauthorized, nil, err)
+				utils.SendRes(res, ErrGetBlacklistedToken.Error(), http.StatusUnauthorized, nil, err)
 				return
 			}
 			if isBlacklisted {
