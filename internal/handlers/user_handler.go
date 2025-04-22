@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"errors"
-	"fmt"
 	"go-web/internal/models"
 	"go-web/internal/services"
 	"go-web/internal/utils"
@@ -42,7 +41,6 @@ func (h *UserHdlImpl) Login(res http.ResponseWriter, req *http.Request) {
 	}
 
 	token, err := h.userSvc.GenerateJWT(req.Context(), creds, ipAddress)
-	fmt.Print(err)
 	if err != nil {
 		utils.SendRes(res, ErrGenerateJWT.Error(), http.StatusUnauthorized, nil, err.Error())
 		return
