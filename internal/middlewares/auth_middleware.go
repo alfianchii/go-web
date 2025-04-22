@@ -14,10 +14,10 @@ type contextKey string
 const UserClaimsKey contextKey = "userClaims"
 
 var (
-	ErrInvalidTokenFormat = errors.New("invalid token format")
+	ErrTokenFormat = errors.New("invalid token format")
 	ErrBlacklistedToken = errors.New("unauthorized: Token is blacklisted")
 	ErrGetBlacklistedToken= errors.New("failed to get blacklisted token")
-	ErrInvalidToken = errors.New("unauthorized: Invalid token")
+	ErrToken = errors.New("unauthorized: Invalid token")
 	ErrInsufficientPerms = errors.New("forbidden: Insufficient permissions")
 )
 
@@ -26,7 +26,7 @@ func AuthMiddleware(requiredRole string, userSvc services.UserSvc, sessionRepo r
 		return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 			tokenString, err := utils.GetBearerToken(req.Header.Get("Authorization"))
 			if err != nil {
-				utils.SendRes(res, ErrInvalidTokenFormat.Error(), http.StatusUnauthorized, nil, err)
+				utils.SendRes(res, ErrTokenFormat.Error(), http.StatusUnauthorized, nil, err)
 				return
 			}
 
@@ -42,7 +42,7 @@ func AuthMiddleware(requiredRole string, userSvc services.UserSvc, sessionRepo r
 
 			userClaims, err := utils.ValidateJWT(tokenString, configs.GetENV("JWT_SECRET"))
 			if err != nil {
-				utils.SendRes(res, ErrInvalidToken.Error(), http.StatusUnauthorized, nil, err)
+				utils.SendRes(res, ErrToken.Error(), http.StatusUnauthorized, nil, err)
 				return
 			}
 

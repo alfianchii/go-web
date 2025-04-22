@@ -11,8 +11,8 @@ import (
 )
 
 var (
-	ErrFailedLoadENVFile = errors.New("failed loading .env file")
-	ErrFailedReadENVFile = errors.New("failed reading .env file")
+	ErrLoadENVFile = errors.New("failed loading .env file")
+	ErrReadENVFile = errors.New("failed reading .env file")
 )
 
 type Config struct {
@@ -38,7 +38,7 @@ var (
 func InitENV() *Config {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal(ErrFailedLoadENVFile)
+		log.Fatal(ErrLoadENVFile)
 	}
 
 	return &Config{
@@ -58,7 +58,7 @@ func InitENV() *Config {
 func GetENV(key string) string {
 	dotEnv, err := godotenv.Read()
 	if err != nil {
-		log.Fatal(ErrFailedReadENVFile)
+		log.Fatal(ErrReadENVFile)
 	}
 
 	return dotEnv[key]

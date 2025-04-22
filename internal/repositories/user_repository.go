@@ -9,8 +9,8 @@ import (
 
 var (
 	ErrUserNotFound = errors.New("user not found")
-	ErrQueryFailed  = errors.New("failed to query user with roles")
-	ErrScanFailed   = errors.New("failed to scan user and role")
+	ErrQueryUserWithRoles  = errors.New("failed to query user with roles")
+	ErrScanUserAndRole   = errors.New("failed to scan user and role")
 )
 
 type UserRepo interface {
@@ -66,7 +66,7 @@ func (r *UserRepoImpl) FindByUsernameWithRoles(ctx context.Context, username str
 	
 	rows, err := r.DB.Pool.Query(ctx, query, username)
 	if err != nil {
-		return nil, ErrQueryFailed
+		return nil, ErrQueryUserWithRoles
 	}
 	defer rows.Close()
 
@@ -81,7 +81,7 @@ func (r *UserRepoImpl) FindByUsernameWithRoles(ctx context.Context, username str
 			&role.ID, &role.Name, &role.CreatedAt, &role.CreatedBy, &role.UpdatedAt, &role.UpdatedBy, &role.DeletedAt, &role.DeletedBy,
 		)
 		if err != nil {
-			return nil, ErrScanFailed
+			return nil, ErrScanUserAndRole
 		}
 
 		roles = append(roles, role)

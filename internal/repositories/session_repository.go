@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	ErrFailedToStoreSession = errors.New("failed to store session")
-	ErrFailedToCheckToken = errors.New("failed to check if token is blacklisted")
+	ErrStoreSession = errors.New("failed to store session")
+	ErrCheckToken = errors.New("failed to check if token is blacklisted")
 )
 
 type SessionRepo interface {
@@ -41,7 +41,7 @@ func (r *SessionRepoImpl) StoreSession(ctx context.Context, session models.Sessi
 	)
 
 	if err != nil {
-		return ErrFailedToStoreSession
+		return ErrStoreSession
 	}
 
 	return nil
@@ -59,7 +59,7 @@ func (r *SessionRepoImpl) IsTokenBlacklisted(ctx context.Context, token string) 
 			return false, nil
 		}
 
-		return false, ErrFailedToCheckToken
+		return false, ErrCheckToken
 	}
 
 	return isBlacklisted, nil

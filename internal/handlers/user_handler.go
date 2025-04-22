@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	ErrFailedParseForm = errors.New("failed to parse form data")
-	ErrFailedGenerateJWT = errors.New("failed to generate JWT")
+	ErrParseForm = errors.New("failed to parse form data")
+	ErrGenerateJWT = errors.New("failed to generate JWT")
 )
 
 type UserHdl interface {
@@ -29,7 +29,7 @@ func NewUserHdl(userSvc services.UserSvc) UserHdl {
 
 func (h *UserHdlImpl) Login(res http.ResponseWriter, req *http.Request) {
 	if err := req.ParseForm(); err != nil {
-		utils.SendRes(res, ErrFailedParseForm.Error(), http.StatusBadRequest, nil, err)
+		utils.SendRes(res, ErrParseForm.Error(), http.StatusBadRequest, nil, err)
 		return
 	}
 
@@ -42,7 +42,7 @@ func (h *UserHdlImpl) Login(res http.ResponseWriter, req *http.Request) {
 
 	token, err := h.userSvc.GenerateJWT(req.Context(), creds, ipAddress)
 	if err != nil {
-		utils.SendRes(res, ErrFailedGenerateJWT.Error(), http.StatusUnauthorized, nil, err)
+		utils.SendRes(res, ErrGenerateJWT.Error(), http.StatusUnauthorized, nil, err)
 		return
 	}
 

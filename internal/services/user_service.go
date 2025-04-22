@@ -14,8 +14,8 @@ import (
 )
 
 var (
-	ErrInvalidUserPass = errors.New("invalid username or password")
-	ErrFailedUUIDForSession = errors.New("failed to generate UUID for session")
+	ErrUserPass = errors.New("invalid username or password")
+	ErrGenerateUUID = errors.New("failed to generate UUID for session")
 )
 
 type UserSvc interface {
@@ -41,7 +41,7 @@ func (s *UserSvcImpl) GenerateJWT(ctx context.Context, creds models.LoginRequest
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(creds.Password)); err != nil {
-		return "", ErrInvalidUserPass
+		return "", ErrUserPass
 	}
 
 	jwt, err := utils.GenerateJWT(user, configs.GetENV("JWT_SECRET"))
@@ -51,7 +51,7 @@ func (s *UserSvcImpl) GenerateJWT(ctx context.Context, creds models.LoginRequest
 
 	rowID, err := uuid.NewRandom()
 	if err != nil {
-		return "", ErrFailedUUIDForSession
+		return "", ErrGenerateUUID
 	}
 
 	session := models.Session{

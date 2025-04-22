@@ -10,11 +10,11 @@ import (
 )
 
 var (
-	ErrFailedToSignToken = errors.New("failed to sign token")
+	ErrSignToken = errors.New("failed to sign token")
 	ErrEmptyAuthHeader = errors.New("unauthorized; authorization header is empty")
-	ErrInvalidBearerToken = errors.New("unathorized; authorization header is not a Bearer token")
-	ErrTokenInvalid = errors.New("invalid token")
-	ErrTokenInvalidClaims = errors.New("invalid token claims")
+	ErrBearerToken = errors.New("unathorized; authorization header is not a Bearer token")
+	ErrToken = errors.New("invalid token")
+	ErrTokenClaims = errors.New("invalid token claims")
 )
 
 const bearerPrefix = "Bearer "
@@ -44,7 +44,7 @@ func GenerateJWT(user *models.User, secret string) (GeneratedJWT, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString([]byte(secret))
 	if err != nil {
-		return GeneratedJWT{}, ErrFailedToSignToken
+		return GeneratedJWT{}, ErrSignToken
 	}
 
 	return GeneratedJWT{
@@ -59,12 +59,12 @@ func ValidateJWT(tokenString string, secret string) (*models.UserClaims, error) 
 	})
 
 	if err != nil {
-		return nil, ErrTokenInvalid
+		return nil, ErrToken
 	}
 
 	claims, ok := token.Claims.(*models.UserClaims)
 	if !ok {
-		return nil, ErrTokenInvalidClaims
+		return nil, ErrTokenClaims
 	}
 
 	return claims, nil
@@ -76,7 +76,7 @@ func GetBearerToken(authHeader string) (string, error) {
 	}
 
 	if len(authHeader) < bearerPrefixLength || authHeader[:bearerPrefixLength] != bearerPrefix {
-		return "", ErrInvalidBearerToken
+		return "", ErrBearerToken
 	}
 
 	return authHeader[bearerPrefixLength:], nil
