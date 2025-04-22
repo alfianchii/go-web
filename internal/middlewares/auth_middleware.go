@@ -56,6 +56,7 @@ func AuthMiddleware(requiredRole string, userSvc services.UserSvc, sessionRepo r
 
 			if !hasRole {
 				utils.SendRes(res, ErrInsufficientPerms.Error(), http.StatusForbidden, nil, "")
+				return
 			}
 
 			ctx := context.WithValue(req.Context(), UserClaimsKey, userClaims)
