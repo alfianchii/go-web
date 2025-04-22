@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+	"fmt"
 	"go-web/internal/models"
 	"go-web/internal/services"
 	"go-web/internal/utils"
@@ -29,7 +30,7 @@ func NewUserHdl(userSvc services.UserSvc) UserHdl {
 
 func (h *UserHdlImpl) Login(res http.ResponseWriter, req *http.Request) {
 	if err := req.ParseForm(); err != nil {
-		utils.SendRes(res, ErrParseForm.Error(), http.StatusBadRequest, nil, err)
+		utils.SendRes(res, ErrParseForm.Error(), http.StatusBadRequest, nil, err.Error())
 		return
 	}
 
@@ -41,12 +42,13 @@ func (h *UserHdlImpl) Login(res http.ResponseWriter, req *http.Request) {
 	}
 
 	token, err := h.userSvc.GenerateJWT(req.Context(), creds, ipAddress)
+	fmt.Print(err)
 	if err != nil {
-		utils.SendRes(res, ErrGenerateJWT.Error(), http.StatusUnauthorized, nil, err)
+		utils.SendRes(res, ErrGenerateJWT.Error(), http.StatusUnauthorized, nil, err.Error())
 		return
 	}
 
 	utils.SendRes(res, "Login successful", http.StatusOK, map[string]string{
 		"token": token,
-	}, nil)
+	}, "")
 }

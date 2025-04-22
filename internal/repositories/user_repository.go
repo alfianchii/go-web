@@ -9,8 +9,8 @@ import (
 
 var (
 	ErrUserNotFound = errors.New("user not found")
-	ErrQueryUserWithRoles  = errors.New("failed to query user with roles")
-	ErrScanUserAndRole   = errors.New("failed to scan user and role")
+	ErrQueryUserWithRoles = errors.New("failed to query user with roles")
+	ErrScanUserAndRole = errors.New("failed to scan user and role")
 )
 
 type UserRepo interface {
@@ -56,8 +56,8 @@ func (r *UserRepoImpl) FindByUsername(ctx context.Context, username string) (*mo
 func (r *UserRepoImpl) FindByUsernameWithRoles(ctx context.Context, username string) (*models.User, error) {
 	query := `
 		SELECT
-		 users.*,
-		 roles.*
+		 	users.*,
+		 	roles.*
 		FROM users
 		LEFT JOIN user_roles ON users.user_id = user_roles.user_id
 		LEFT JOIN roles ON user_roles.role_id = roles.role_id

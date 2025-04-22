@@ -9,8 +9,8 @@ import (
 )
 
 type App struct {
-	DB *database.DB
 	Config *configs.Config
+	DB *database.DB
 	Address string
 	// Repo, svc, hdl
 	UserRepo repositories.UserRepo
@@ -34,8 +34,8 @@ func InitApp() *App {
 	dashboardHdl := handlers.NewDashboardHdl(dashboardSvc)
 
 	return &App{
-		DB: db,
 		Config: cfg,
+		DB: db,
 		Address: configs.GetAppAddress(cfg),
 		UserRepo: userRepo,
 		SessionRepo: sessionRepo,

@@ -26,23 +26,23 @@ func AuthMiddleware(requiredRole string, userSvc services.UserSvc, sessionRepo r
 		return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 			tokenString, err := utils.GetBearerToken(req.Header.Get("Authorization"))
 			if err != nil {
-				utils.SendRes(res, ErrTokenFormat.Error(), http.StatusUnauthorized, nil, err)
+				utils.SendRes(res, ErrTokenFormat.Error(), http.StatusUnauthorized, nil, err.Error())
 				return
 			}
 
 			isBlacklisted, err := sessionRepo.IsTokenBlacklisted(req.Context(), tokenString)
 			if err != nil {
-				utils.SendRes(res, ErrGetBlacklistedToken.Error(), http.StatusUnauthorized, nil, err)
+				utils.SendRes(res, ErrGetBlacklistedToken.Error(), http.StatusUnauthorized, nil, err.Error())
 				return
 			}
 			if isBlacklisted {
-				utils.SendRes(res, ErrBlacklistedToken.Error(), http.StatusUnauthorized, nil, nil)
+				utils.SendRes(res, ErrBlacklistedToken.Error(), http.StatusUnauthorized, nil, "")
 				return
 			}
 
 			userClaims, err := utils.ValidateJWT(tokenString, configs.GetENV("JWT_SECRET"))
 			if err != nil {
-				utils.SendRes(res, ErrToken.Error(), http.StatusUnauthorized, nil, err)
+				utils.SendRes(res, ErrToken.Error(), http.StatusUnauthorized, nil, err.Error())
 				return
 			}
 
@@ -55,7 +55,7 @@ func AuthMiddleware(requiredRole string, userSvc services.UserSvc, sessionRepo r
 			}
 
 			if !hasRole {
-				utils.SendRes(res, ErrInsufficientPerms.Error(), http.StatusForbidden, nil, nil)
+				utils.SendRes(res, ErrInsufficientPerms.Error(), http.StatusForbidden, nil, "")
 			}
 
 			ctx := context.WithValue(req.Context(), UserClaimsKey, userClaims)

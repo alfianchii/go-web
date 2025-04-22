@@ -11,7 +11,7 @@ func SetHeaderJSON(res http.ResponseWriter) {
 	res.Header().Set("Content-Type", "application/json")
 }
 
-func SendRes(res http.ResponseWriter, msg string, status int, data interface{}, err error) {
+func SendRes(res http.ResponseWriter, msg string, status int, data interface{}, err string) {
 	SetHeaderJSON(res)
 
 	response := models.Response{

@@ -33,9 +33,9 @@ func (h *DashboardHdlImpl) DashboardData(res http.ResponseWriter, req *http.Requ
 	
 	dashboardData, err := h.dashboardSvc.GetDashboardData(ctx, userClaims)
 	if err != nil {
-		utils.SendRes(res, ErrFetchDashboardData.Error(), http.StatusBadRequest, nil, err)
+		utils.SendRes(res, ErrFetchDashboardData.Error(), http.StatusBadRequest, nil, err.Error())
 		return
 	}
 
-	utils.SendRes(res, "Dashboard data successfully fetched!", http.StatusOK, dashboardData, nil)
+	utils.SendRes(res, "Dashboard data successfully fetched!", http.StatusOK, dashboardData, "")
 }
