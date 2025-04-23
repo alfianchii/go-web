@@ -32,7 +32,7 @@ func (r *UserRepoImpl) FindByUsername(ctx context.Context, username string) (*mo
 	query := `SELECT * FROM users WHERE username = $1`
 	row := r.DB.Pool.QueryRow(ctx, query, username)
 
-	var user models.User
+	var user = &models.User{}
 	err := row.Scan(
 		&user.ID,
 		&user.Name,
@@ -50,7 +50,7 @@ func (r *UserRepoImpl) FindByUsername(ctx context.Context, username string) (*mo
 		return nil, ErrUserNotFound
 	}
 
-	return &user, nil
+	return user, nil
 }
 
 func (r *UserRepoImpl) FindByUsernameWithRoles(ctx context.Context, username string) (*models.User, error) {
